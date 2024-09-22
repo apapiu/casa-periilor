@@ -294,7 +294,7 @@ const Footer = () => (
     <div className="container mx-auto text-center">
       <p className="mb-4">&copy; 2024 Artisan Brush Co. All rights reserved.</p>
       <div className="space-x-4">
-        {['Facebook', 'Instagram', 'LinkedIn'].map((social) => (
+        {['Facebook', 'WhatsApp', 'LinkedIn'].map((social) => (
           <a key={social} href="#" className="text-gray-300 hover:text-white transition duration-300">
             {social}
           </a>
