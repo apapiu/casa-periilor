@@ -77,7 +77,7 @@ const Header = () => {
   return (
     <header className="bg-white bg-opacity-95 backdrop-blur-sm shadow-md fixed max-w-5xl w-full top-0 z-50 rounded">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold text-gray-800">Casa Periilor Co.</div>
+        <div className="text-xl font-bold text-gray-800 mr-3">Casa Periilor</div>
         <nav>
           <ul className="flex space-x-6">
             {['home', 'products', 'about', 'contact'].map((item) => (
@@ -249,7 +249,7 @@ const ProductCard = ({ title, description, images, prices, sizes }) => {
 const Products = () => (
   <section id="products" className="py-16 px-4">
     <div className="container mx-auto">
-      <h2 className="text-3xl font-bold text-center text-green-700 mb-12">Our Premium Collections</h2>
+      <h2 className="text-3xl font-bold text-center text-green-800 mb-12">Our Premium Collections</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {productData.map((product, index) => (
           <ProductCard
@@ -266,7 +266,7 @@ const Products = () => (
 const About = () => (
   <section id="about" className="bg-gray-100 py-16 px-4">
     <div className="container mx-auto">
-      <h2 className="text-3xl font-bold text-center text-green-700 mb-8">Our Heritage</h2>
+      <h2 className="text-3xl font-bold text-center text-green-800 mb-8">Our Heritage</h2>
       <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Alexandru_Papiu-Ilarian.jpg/220px-Alexandru_Papiu-Ilarian.jpg" alt="Heritage" className="w-full md:w-1/3 rounded-lg shadow-md" />
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Alexandru_Papiu-Ilarian.jpg/220px-Alexandru_Papiu-Ilarian.jpg" alt="Founder" className="w-full md:w-1/4 rounded-lg shadow-md" />
@@ -281,7 +281,7 @@ const About = () => (
 const Contact = () => (
   <section id="contact" className="py-16 px-4">
     <div className="container mx-auto text-center">
-      <h2 className="text-3xl font-bold text-green-700 mb-8">Connect With Us</h2>
+      <h2 className="text-3xl font-bold text-green-800 mb-8">Connect With Us</h2>
       <p className="text-gray-600 mb-2">Email: info@artisanbrush.ro</p>
       <p className="text-gray-600 mb-2">Phone: +40 123 456 789</p>
       <p className="text-gray-600">Studio: 123 Atelier Street, Bucharest, Romania</p>
