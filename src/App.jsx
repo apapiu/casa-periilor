@@ -1,51 +1,6 @@
-import { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { productData, translations } from './data';
 
-const productData = [
-  {
-    title: "Pizza Oven Brushes",
-    description:
-      "Precision-engineered brushes for discerning overn artists, delivering unparalleled control and expression.",
-    images: [
-      "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
-      "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
-      "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
-    ],
-    prices: [
-      "$29.99 - Standard Set",
-      "$49.99 - Deluxe Set",
-      "$79.99 - Professional Set",
-    ],
-    sizes: ["Small (0-4)", "Medium (5-8)", "Large (9-12)"],
-  },
-  {
-    title: "Home Essentials",
-    description:
-      "Elegant and durable household brushes, combining functionality with timeless design.",
-    images: [
-      "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
-      "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
-      "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
-    ],
-    prices: ["$19.99 - Basic Set", "$39.99 - Complete Set", "$59.99 - Luxury Set"],
-    sizes: ["Compact", "Standard", "Large"],
-  },
-  {
-    title: "Specialty Collection",
-    description:
-      "Unique brushes crafted for specific applications, pushing the boundaries of traditional brush-making.",
-    images: [
-      "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
-      "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
-      "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
-    ],
-    prices: [
-      "$34.99 - Individual",
-      "$89.99 - Curated Set",
-      "$129.99 - Master Collection",
-    ],
-    sizes: ["Application-specific sizes", "Custom sizes available"],
-  },
-];
 
 const useSmoothScroll = () => {
   const scrollToElement = useCallback((elementId) => {
@@ -69,17 +24,40 @@ const useHandleScroll = () => {
   return handleClick;
 };
 
+const LanguageContext = React.createContext();
+
+const LanguageProvider = ({ children }) => {
+  const [language, setLanguage] = useState('en');
+
+  const toggleLanguage = () => {
+    setLanguage(prevLang => prevLang === 'en' ? 'ro' : 'en');
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, toggleLanguage }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+const useTranslation = () => {
+  const { language } = React.useContext(LanguageContext);
+  return translations[language];
+};
+
 
 // COMPONENTS:
 const Header = () => {
   const handleClick = useHandleScroll();
+  const { language, toggleLanguage } = React.useContext(LanguageContext);
+  const t = useTranslation();
 
   return (
     <header className="bg-white bg-opacity-95 backdrop-blur-sm shadow-md fixed max-w-5xl w-full top-0 z-50 rounded">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="text-xl font-bold text-gray-800 mr-3">Casa Periilor</div>
-        <nav>
-          <ul className="flex space-x-6">
+        <nav className="flex items-center">
+          <ul className="flex space-x-6 mr-4">
             {['home', 'products', 'about', 'contact'].map((item) => (
               <li key={item}>
                 <a
@@ -87,11 +65,17 @@ const Header = () => {
                   onClick={(e) => handleClick(e, item)}
                   className="text-gray-600 hover:text-amber-600 uppercase text-sm tracking-wide"
                 >
-                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                  {t[item]}
                 </a>
               </li>
             ))}
           </ul>
+          <button
+            onClick={toggleLanguage}
+            className="bg-amber-600 text-white px-3 py-1 rounded-full hover:bg-amber-700 transition duration-300"
+          >
+            {language === 'en' ? 'RO' : 'EN'}
+          </button>
         </nav>
       </div>
     </header>
@@ -99,20 +83,26 @@ const Header = () => {
 };
 
 const Hero = () => {
-
   const handleClick = useHandleScroll();
+  const t = useTranslation();
 
-  return <section id="home" className="bg-blue-100 text-center py-32 px-4 mt-16">
-    <div className="container mx-auto">
-      <h1 className="text-5xl font-bold text-gray-800 mb-4">Exquisite Romanian Craftsmanship</h1>
-      <p className="text-xl text-gray-600 mb-8">Elevating your artistic expression with meticulously crafted brushes since 1974</p>
-      <a onClick={(e) => handleClick(e, "products")}
-      href="#products" className="bg-amber-600 text-white px-8 py-3 rounded-full hover:bg-amber-700 transition duration-300">
-        Explore Our Collection
-      </a>
-    </div>
-  </section>
+  return (
+    <section id="home" className="bg-blue-100 text-center py-32 px-4 mt-16">
+      <div className="container mx-auto">
+        <h1 className="text-5xl font-bold text-gray-800 mb-4">{t.heroTitle}</h1>
+        <p className="text-xl text-gray-600 mb-8">{t.heroSubtitle}</p>
+        <a
+          onClick={(e) => handleClick(e, "products")}
+          href="#products"
+          className="bg-amber-600 text-white px-8 py-3 rounded-full hover:bg-amber-700 transition duration-300"
+        >
+          {t.exploreCollection}
+        </a>
+      </div>
+    </section>
+  );
 };
+
 
 const Modal = ({ isOpen, onClose, children }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -246,78 +236,90 @@ const ProductCard = ({ title, description, images, prices, sizes }) => {
   );
 };
 
-const Products = () => (
-  <section id="products" className="py-16 px-4">
-    <div className="container mx-auto">
-      <h2 className="text-3xl font-bold text-center text-green-800 mb-12">Our Premium Collections</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {productData.map((product, index) => (
-          <ProductCard
-            key={index}
-            {...product}
-          />
-        ))}
+const Products = () => {
+  const t = useTranslation();
+  return (
+    <section id="products" className="py-16 px-4">
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold text-center text-green-800 mb-12">{t.premiumCollections}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {productData.map((product, index) => (
+            <ProductCard
+              key={index}
+              {...product}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
-
-const About = () => (
-  <section id="about" className="bg-gray-100 py-16 px-4">
-    <div className="container mx-auto">
-      <h2 className="text-3xl font-bold text-center text-green-800 mb-8">Our Heritage</h2>
-      <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Alexandru_Papiu-Ilarian.jpg/220px-Alexandru_Papiu-Ilarian.jpg" alt="Heritage" className="w-full md:w-1/3 rounded-lg shadow-md" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Alexandru_Papiu-Ilarian.jpg/220px-Alexandru_Papiu-Ilarian.jpg" alt="Founder" className="w-full md:w-1/4 rounded-lg shadow-md" />
+const About = () => {
+  const t = useTranslation();
+  return (
+    <section id="about" className="bg-gray-100 py-16 px-4">
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-bold text-center text-green-800 mb-8">{t.heritage}</h2>
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Alexandru_Papiu-Ilarian.jpg/220px-Alexandru_Papiu-Ilarian.jpg" alt="Heritage" className="w-full md:w-1/3 rounded-lg shadow-md" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Alexandru_Papiu-Ilarian.jpg/220px-Alexandru_Papiu-Ilarian.jpg" alt="Founder" className="w-full md:w-1/4 rounded-lg shadow-md" />
+        </div>
+        <p className="text-gray-600 mt-8 text-center max-w-2xl mx-auto">
+          {t.heritageText}
+        </p>
       </div>
-      <p className="text-gray-600 mt-8 text-center max-w-2xl mx-auto">
-        For three generations, our family has been perfecting the art of brush-making in the heart of Romania. We seamlessly blend time-honored techniques with cutting-edge innovation to create tools of unparalleled quality, empowering artists and homeowners alike to achieve excellence in their pursuits.
-      </p>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
-const Contact = () => (
-  <section id="contact" className="py-16 px-4">
-    <div className="container mx-auto text-center">
-      <h2 className="text-3xl font-bold text-green-800 mb-8">Connect With Us</h2>
-      <p className="text-gray-600 mb-2">Email: info@artisanbrush.ro</p>
-      <p className="text-gray-600 mb-2">Phone: +40 123 456 789</p>
-      <p className="text-gray-600">Studio: 123 Atelier Street, Bucharest, Romania</p>
-    </div>
-  </section>
-);
-
-const Footer = () => (
-  <footer className="bg-gray-800 text-white py-8">
-    <div className="container mx-auto text-center">
-      <p className="mb-4">&copy; 2024 Artisan Brush Co. All rights reserved.</p>
-      <div className="space-x-4">
-        {['Facebook', 'WhatsApp', 'LinkedIn'].map((social) => (
-          <a key={social} href="#" className="text-gray-300 hover:text-white transition duration-300">
-            {social}
-          </a>
-        ))}
+const Contact = () => {
+  const t = useTranslation();
+  return (
+    <section id="contact" className="py-16 px-4">
+      <div className="container mx-auto text-center">
+        <h2 className="text-3xl font-bold text-green-800 mb-8">{t.connectWithUs}</h2>
+        <p className="text-gray-600 mb-2">Email: info@artisanbrush.ro</p>
+        <p className="text-gray-600 mb-2">Phone: +40 123 456 789</p>
+        <p className="text-gray-600">Studio: 123 Atelier Street, Bucharest, Romania</p>
       </div>
-    </div>
-  </footer>
-);
+    </section>
+  );
+};
 
+const Footer = () => {
+  const t = useTranslation();
+  return (
+    <footer className="bg-gray-800 text-white py-8">
+      <div className="container mx-auto text-center">
+        <p className="mb-4">&copy; 2024 Artisan Brush Co. {t.footer}</p>
+        <div className="space-x-4">
+          {['Facebook', 'WhatsApp', 'LinkedIn'].map((social) => (
+            <a key={social} href="#" className="text-gray-300 hover:text-white transition duration-300">
+              {social}
+            </a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+};
 
 const App = () => (
-  <div className="font-sans bg-gray-50 min-h-screen flex justify-center">
-    <div className="w-full max-w-5xl bg-white shadow-md">
-      <Header />
-      <main>
-        <Hero />
-        <Products />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
+  <LanguageProvider>
+    <div className="font-sans bg-gray-50 min-h-screen flex justify-center">
+      <div className="w-full max-w-5xl bg-white shadow-md">
+        <Header />
+        <main>
+          <Hero />
+          <Products />
+          <About />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
     </div>
-  </div>
+  </LanguageProvider>
 );
 
 export default App;
