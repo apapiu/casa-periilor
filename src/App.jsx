@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import { FlagIcon } from 'react-flag-kit';
 import { productData, translations } from './data';
 
 
@@ -72,9 +73,14 @@ const Header = () => {
           </ul>
           <button
             onClick={toggleLanguage}
-            className="bg-amber-600 text-white px-3 py-1 rounded-full hover:bg-amber-700 transition duration-300"
+            className="focus:outline-none"
+            aria-label={language === 'en' ? 'Switch to Romanian' : 'Switch to English'}
           >
-            {language === 'en' ? 'RO' : 'EN'}
+            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 hover:border-amber-600 transition duration-300 flex items-center justify-center">
+              <div className="w-10 h-10 flex items-center justify-center">
+                <FlagIcon code={language === 'en' ? 'RO' : 'GB'} size={40} />
+              </div>
+            </div>
           </button>
         </nav>
       </div>
