@@ -54,38 +54,37 @@ const Header = () => {
   const t = useTranslation();
 
   return (
-    <header className="bg-white bg-opacity-95 backdrop-blur-sm shadow-md fixed max-w-5xl w-full top-0 z-50 rounded">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold text-gray-800 mr-3">Casa Periilor</div>
-        <nav className="flex items-center">
-          <ul className="flex space-x-6 mr-4">
-            {['home', 'products', 'about', 'contact'].map((item) => (
-              <li key={item}>
-                <a
-                  href={`#${item}`}
-                  onClick={(e) => handleClick(e, item)}
-                  className="text-gray-600 hover:text-amber-600 uppercase text-sm tracking-wide"
-                >
-                  {t[item]}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <button
-            onClick={toggleLanguage}
-            className="focus:outline-none"
-            aria-label={language === 'en' ? 'Switch to Romanian' : 'Switch to English'}
-          >
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 hover:border-amber-600 transition duration-300 flex items-center justify-center">
-              <div className="w-10 h-10 flex items-center justify-center">
-                <FlagIcon code={language === 'en' ? 'RO' : 'GB'} size={40} />
-              </div>
-            </div>
-          </button>
-        </nav>
-      </div>
-    </header>
-  );
+<header className="bg-white bg-opacity-95 backdrop-blur-sm shadow-md fixed w-full sm:max-w-5xl top-0 z-50 rounded">
+  <div className="container mx-auto px-2 sm:px-4 py-4 flex justify-between items-center">
+    <div className="text-xl font-bold text-gray-800 mr-3">Casa Periilor</div>
+    <nav className="flex items-center">
+      <ul className="flex space-x-3 sm:space-x-6 mr-4">
+        {['home', 'products', 'about', 'contact'].map((item) => (
+          <li key={item}>
+            <a
+              href={`#${item}`}
+              onClick={(e) => handleClick(e, item)}
+              className="text-gray-600 hover:text-amber-600 uppercase text-xs sm:text-sm tracking-wide"
+            >
+              {t[item]}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={toggleLanguage}
+        className="focus:outline-none"
+        aria-label={language === 'en' ? 'Switch to Romanian' : 'Switch to English'}
+      >
+        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 hover:border-amber-600 transition duration-300 flex items-center justify-center">
+          <div className="w-10 h-10 flex items-center justify-center">
+            <FlagIcon code={language === 'en' ? 'RO' : 'GB'} size={40} />
+          </div>
+        </div>
+      </button>
+    </nav>
+  </div>
+</header>  );
 };
 
 const Hero = () => {
