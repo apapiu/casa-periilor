@@ -11,13 +11,19 @@ const useSmoothScroll = () => {
   return scrollToElement;
 };
 
-const Header = () => {
+const useHandleScroll = () => {
   const scrollToElement = useSmoothScroll();
 
   const handleClick = (e, elementId) => {
     e.preventDefault();
     scrollToElement(elementId);
   };
+
+  return handleClick;
+};
+
+const Header = () => {
+  const handleClick = useHandleScroll();
 
   return (
     <header className="bg-white bg-opacity-95 backdrop-blur-sm shadow-md fixed max-w-5xl w-full top-0 z-50 rounded">
@@ -43,17 +49,21 @@ const Header = () => {
   );
 };
 
-const Hero = () => (
-  <section id="home" className="bg-blue-100 text-center py-32 px-4 mt-16">
+const Hero = () => {
+
+  const handleClick = useHandleScroll();
+
+  return <section id="home" className="bg-blue-100 text-center py-32 px-4 mt-16">
     <div className="container mx-auto">
       <h1 className="text-5xl font-bold text-gray-800 mb-4">Exquisite Romanian Craftsmanship</h1>
       <p className="text-xl text-gray-600 mb-8">Elevating your artistic expression with meticulously crafted brushes since 1974</p>
-      <a href="#products" className="bg-amber-600 text-white px-8 py-3 rounded-full hover:bg-amber-700 transition duration-300">
+      <a onClick={(e) => handleClick(e, "products")}
+      href="#products" className="bg-amber-600 text-white px-8 py-3 rounded-full hover:bg-amber-700 transition duration-300">
         Explore Our Collection
       </a>
     </div>
   </section>
-);
+};
 
 const Modal = ({ isOpen, onClose, children }) => {
   const [isVisible, setIsVisible] = useState(false);
