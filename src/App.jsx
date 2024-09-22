@@ -1,5 +1,52 @@
 import { useCallback, useState, useEffect } from 'react';
 
+const productData = [
+  {
+    title: "Pizza Oven Brushes",
+    description:
+      "Precision-engineered brushes for discerning overn artists, delivering unparalleled control and expression.",
+    images: [
+      "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
+      "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
+      "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
+    ],
+    prices: [
+      "$29.99 - Standard Set",
+      "$49.99 - Deluxe Set",
+      "$79.99 - Professional Set",
+    ],
+    sizes: ["Small (0-4)", "Medium (5-8)", "Large (9-12)"],
+  },
+  {
+    title: "Home Essentials",
+    description:
+      "Elegant and durable household brushes, combining functionality with timeless design.",
+    images: [
+      "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
+      "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
+      "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
+    ],
+    prices: ["$19.99 - Basic Set", "$39.99 - Complete Set", "$59.99 - Luxury Set"],
+    sizes: ["Compact", "Standard", "Large"],
+  },
+  {
+    title: "Specialty Collection",
+    description:
+      "Unique brushes crafted for specific applications, pushing the boundaries of traditional brush-making.",
+    images: [
+      "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
+      "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
+      "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
+    ],
+    prices: [
+      "$34.99 - Individual",
+      "$89.99 - Curated Set",
+      "$129.99 - Master Collection",
+    ],
+    sizes: ["Application-specific sizes", "Custom sizes available"],
+  },
+];
+
 const useSmoothScroll = () => {
   const scrollToElement = useCallback((elementId) => {
     const element = document.getElementById(elementId);
@@ -22,6 +69,8 @@ const useHandleScroll = () => {
   return handleClick;
 };
 
+
+// COMPONENTS:
 const Header = () => {
   const handleClick = useHandleScroll();
 
@@ -197,48 +246,22 @@ const ProductCard = ({ title, description, images, prices, sizes }) => {
   );
 };
 
-
 const Products = () => (
   <section id="products" className="py-16 px-4">
     <div className="container mx-auto">
       <h2 className="text-3xl font-bold text-center text-green-700 mb-12">Our Premium Collections</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <ProductCard
-          title="Artist Series"
-          description="Precision-engineered brushes for discerning artists, delivering unparalleled control and expression."
-          images={[
-            "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
-            "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
-            "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg"
-          ]}          
-          prices={['$29.99 - Standard Set', '$49.99 - Deluxe Set', '$79.99 - Professional Set']}
-          sizes={['Small (0-4)', 'Medium (5-8)', 'Large (9-12)']}
-        />
-        <ProductCard
-          title="Home Essentials"
-          description="Elegant and durable household brushes, combining functionality with timeless design."
-          images={[
-            "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
-            "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500",
-            "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg"
-          ]}
-          prices={['$19.99 - Basic Set', '$39.99 - Complete Set', '$59.99 - Luxury Set']}
-          sizes={['Compact', 'Standard', 'Large']}
-        />
-        <ProductCard
-          title="Specialty Collection"
-          description="Unique brushes crafted for specific applications, pushing the boundaries of traditional brush-making."
-          images={[
-            "https://cdn.webshopapp.com/shops/275117/files/341281941/spezialbuersten-hochmuth-oven-broom-60-cm.jpg",
-            "https://fornopiombo.com/cdn/shop/products/CopyofFornoPiomboxWoo_L1270945.jpg?v=1662662963&width=500",
-            "https://fornopiombo.com/cdn/shop/products/Brush_Config1A_Closeup.jpg?v=1662662963&width=500"
-          ]}          prices={['$34.99 - Individual', '$89.99 - Curated Set', '$129.99 - Master Collection']}
-          sizes={['Application-specific sizes', 'Custom sizes available']}
-        />
+        {productData.map((product, index) => (
+          <ProductCard
+            key={index}
+            {...product}
+          />
+        ))}
       </div>
     </div>
   </section>
 );
+
 
 const About = () => (
   <section id="about" className="bg-gray-100 py-16 px-4">
